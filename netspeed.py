@@ -1,11 +1,15 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import csv
 import time
 import datetime
+
+options = Options()
+options.headless = True
 
 def append_string_as_row(file_name, datetime_string, speed_string, units_string):
     # Open file in append mode
@@ -16,7 +20,7 @@ def append_string_as_row(file_name, datetime_string, speed_string, units_string)
         speed_writer.writerow([datetime_string, speed_string, units_string])
 
 def measure_speed():
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome(options=options)
     driver.get("https://fast.com")
     wait = WebDriverWait(driver, 60)
 
