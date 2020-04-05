@@ -4,10 +4,12 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import sys
 import csv
 import time
 import datetime
 
+# Set chrome webdriver headless option
 options = Options()
 options.headless = True
 
@@ -46,6 +48,22 @@ def measure_speed():
 
     driver.close()
 
-while True:
-    measure_speed()
-    time.sleep(60*5) # sleep for 5 minutes
+def loopthrough(value):
+    while True:
+        measure_speed()
+        time.sleep(60 * value) # sleep for sys.argv[1] minutes
+
+no_of_minutes = -1
+
+try:
+    no_of_minutes = float(sys.argv[1])
+except Exception as e: 
+    print("Error processing minute value")
+    print("USAGE: python netspeed.py [minutes]")
+    sys.exit(1)
+
+if (no_of_minutes > 0):
+    print("looping every " + str(no_of_minutes) + " minutes")
+    loopthrough(no_of_minutes)
+else:
+    print("USAGE: python netspeed.py [minutes]\n[minutes] must be greater than 0")
